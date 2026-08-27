@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portail Association</title>
+    
+    <!-- LIBRAIRIE CALENDRIER -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+
+    <style>
+        /* --- STYLES GENERAUX --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background-color: #f4f6f9; color: #333; padding-bottom: 50px; }
+        
+        /* --- NAVIGATION --- */
+        nav { background: #1e3c72; display: flex; justify-content: center; padding: 1rem; gap: 1rem; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        nav button { background: rgba(255,255,255,0.1); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: bold; transition: 0.3s; }
+        nav button:hover { background: rgba(255,255,255,0.2); }
+        nav button.active { background: white; color: #1e3c72; }
+
+        /* --- CONTENEUR PRINCIPAL --- */
+        .container { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; }
+        .section { display: none; }
+        .section.active { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- FILTRES ET GRILLE --- */
+        .filters { display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap; justify-content: center; }
+        .btn-filter { background: white; border: 1px solid #ddd; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; transition: 0.2s; font-weight: bold; }
+        .btn-filter.active, .btn-filter:hover { background: #2a5298; color: white; border-color: #2a5298; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .card { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .card img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem; background-color: #eee; }
+        .card h3 { color: #1e3c72; margin-bottom: 0.5rem; text-transform: capitalize; }
+        .tag { display: inline-block; background: #e2e8f0; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.8rem; margin-bottom: 1rem; text-transform: uppercase; font-weight: bold; color: #333;}
+        .prices { background: #f8f9fa; padding: 0.8rem; border-radius: 8px; margin-top: 1rem; }
+        .price-row { display: flex; justify-content: space-between; margin-bottom: 0.3rem; font-size: 0.9rem; }
+
+        /* --- PLANNING ET MODALE D'EVENEMENT --- */
+        #calendar { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 1rem; }
+        .modal-content { background: white; border-radius: 12px; max-width: 500px; width: 100%; overflow: hidden; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: fadeIn 0.3s; }
+        .modal-img { width: 100%; height: 250px; object-fit: cover; background: #eee; }
+        .modal-body { padding: 1.5rem; }
+        .modal-title { color: #1e3c72; margin-bottom: 0.5rem; font-size: 1.5rem; }
+        .close-btn { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.5); color: white; border: none; width: 35px; height: 35px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+        .close-btn:hover { background: black; }
+
+        /* --- PROFIL --- */
+        .profil-box { background: white; padding: 2rem; border-radius: 12px; max-width: 600px; margin: 0 auto; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 0.5rem; }
+        .form-group input[type="email"] { width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; }
+        .checkbox-group { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.8rem; }
+        .btn-save { background: #25d366; color: white; border: none; padding: 0.8rem 2rem; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1.1rem; transition: 0.3s; }
+        .btn-save:hover { filter: brightness(0.95); }
+    </style>
+</head>
+<body>
+
+    <!-- BARRE DE NAVIGATION -->
+    <nav>
+        <button class="nav-btn active" data-target="matos">Matériel</button>
+        <button class="nav-btn" data-target="planning">Planning</button>
+        <button class="nav-btn" data-target="profil">Mon Profil</button>
+    </nav>
+
+    <div class="container">
+        
+        <!-- ONGLET MATERIEL -->
+        <section id="matos" class="section active">
+            <h2 style="margin-bottom: 1.5rem; text-align: center; color: #1e3c72;">Inventaire Disponible</h2>
+            <div class="filters" id="filter-container">
+                <button class="btn-filter active" data-sport="tous">Tous les sports</button>
+                <button class="btn-filter" data-sport="ski">Ski</button>
+                <button class="btn-filter" data-sport="escalade">Escalade</button>
+                <button class="btn-filter" data-sport="rando">Randonnée</button>
+                <button class="btn-filter" data-sport="vtt">VTT</button>
+            </div>
+            <div class="grid" id="materiel-grid"></div>
+        </section>
+
+        <!-- ONGLET PLANNING -->
+        <section id="planning" class="section">
+            <h2 style="text-align: center; color: #1e3c72; margin-bottom: 1rem;">Calendrier des Sorties</h2>
+            <div id="calendar"></div>
+        </section>
+
+        <!-- ONGLET PROFIL -->
+        <section id="profil" class="section">
+            <div class="profil-box">
+                <h2 style="color: #1e3c72; margin-bottom: 1.5rem;">Préférences & Notifications</h2>
+                
+                <div class="form-group">
+                    <label>Adresse Email de contact</label>
+                    <input type="email" id="user-email" placeholder="ton.adresse@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Mes sports favoris (Alertes activées)</label>
+                    <div class="checkbox-group"><input type="checkbox" id="pref-ski"> <label for="pref-ski">Ski</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pref-rando"> <label for="pref-rando">Randonnée</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pref-course"> <label for="pref-course">Course à pied</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pref-trail"> <label for="pref-trail">Trail</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pref-escalade"> <label for="pref-escalade">Escalade</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pref-vtt"> <label for="pref-vtt">VTT</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pref-velo-route"> <label for="pref-velo-route">Vélo de route</label></div>
+                </div>
+
+                <!-- Bouton relié à la fonction d'enregistrement -->
+                <button class="btn-save" onclick="enregistrerProfil()" id="btn-profil">Enregistrer mes préférences</button>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- MODALE EVENEMENT -->
+    <div id="event-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" id="close-modal">&times;</button>
+            <img id="modal-img" class="modal-img" src="" alt="Image de l'événement">
+            <div class="modal-body">
+                <h2 id="modal-title" class="modal-title">Titre</h2>
+                <span class="tag" id="modal-sport"></span>
+                <p style="color: #2a5298; font-weight: bold; margin-bottom: 1rem; font-size: 0.95rem;">
+                    ⏰ <span id="modal-time"></span> | 📍 <span id="modal-location"></span>
+                </p>
+                <p id="modal-desc">Description de l'événement...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===================================================
+        // CONSTANTES ET URLS (MIS A JOUR POUR L'ASSO)
+        // ===================================================
+        const URL_MATERIEL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQf_GoJW-8xWtXyvafzNJUFnykAl-TN13yuXZT7WfGbc7UlKdS-oTOFO9_yZXCYhBAOofhuakR2HhIN/pub?gid=0&single=true&output=csv'; 
+        const URL_PLANNING = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQf_GoJW-8xWtXyvafzNJUFnykAl-TN13yuXZT7WfGbc7UlKdS-oTOFO9_yZXCYhBAOofhuakR2HhIN/pub?gid=1075343907&single=true&output=csv'; 
+        
+        // URL de l'API Google Apps Script de l'association
+        const SCRIPT_URL_PROFIL = 'https://script.google.com/macros/s/AKfycbxIwW83UMgLS46ibLYQ_hYEaw4yH66XcQWiwMJWTtvDbxrFoehpd6eLjlcqdBLzPA/exec';
+
+        // --- FONCTION INTELLIGENTE DE LECTURE CSV ---
+        function lireLigneCSV(ligne) {
+            const regex = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
+            return ligne.split(regex).map(valeur => valeur.replace(/^"|"$/g, '').trim());
+        }
+
+        // --- GESTION DES ONGLETS ---
+        const navBtns = document.querySelectorAll('.nav-btn');
+        const sections = document.querySelectorAll('.section');
+        navBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                navBtns.forEach(b => b.classList.remove('active'));
+                sections.forEach(s => s.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.target).classList.add('active');
+            });
+        });
+
+        // --- GESTION DE LA MODALE ---
+        const modal = document.getElementById('event-modal');
+        document.getElementById('close-modal').addEventListener('click', () => modal.style.display = 'none');
+        window.addEventListener('click', (e) => { if (e.target == modal) modal.style.display = 'none'; });
+
+        // --- CHARGEMENT DU MATERIEL ---
+        const grid = document.getElementById('materiel-grid');
+        let inventaireGlobal = [];
+
+        function afficherMateriel(filtreSport) {
+            grid.innerHTML = ''; 
+            inventaireGlobal.forEach(item => {
+                if ((filtreSport === 'tous' || item.sport === filtreSport) && item.stock > 0) {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <img src="${item.image}" alt="${item.nom}">
+                        <span class="tag">${item.sport}</span>
+                        <h3>${item.nom}</h3>
+                        <p style="color: #137333; font-weight: bold; margin-bottom: 1rem;">En stock : ${item.stock}</p>
+                        <div class="prices">
+                            <div class="price-row"><span>Adhérent:</span> <strong>${item.prixA} €</strong></div>
+                            <div class="price-row"><span>Non-Adhérent:</span> <strong>${item.prixNA} €</strong></div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                }
+            });
+        }
+
+        document.querySelectorAll('.btn-filter').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.btn-filter').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                afficherMateriel(btn.dataset.sport);
+            });
+        });
+
+        fetch(URL_MATERIEL)
+            .then(res => res.text())
+            .then(csv => {
+                const lignes = csv.split('\n');
+                lignes.shift(); 
+                inventaireGlobal = lignes.map(ligne => {
+                    const vals = lireLigneCSV(ligne); 
+                    return { 
+                        nom: vals[0], sport: vals[1], stock: parseInt(vals[2]), 
+                        prixA: vals[3], prixNA: vals[4], image: vals[5] 
+                    };
+                }).filter(item => item.nom); 
+                afficherMateriel('tous');
+            })
+            .catch(err => console.error("Erreur Matériel:", err));
+
+        // --- CHARGEMENT DU PLANNING ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarEl = document.getElementById('calendar');
+            
+            fetch(URL_PLANNING)
+                .then(res => res.text())
+                .then(csv => {
+                    const lignes = csv.split('\n');
+                    lignes.shift(); 
+                    
+                    const evenementsSheet = lignes.map(ligne => {
+                        const vals = lireLigneCSV(ligne); 
+                        
+                        if (!vals[0] || !vals[1]) return null;
+
+                        return {
+                            title: vals[0],
+                            start: vals[1],
+                            end: vals[2],
+                            color: vals[6] || '#3788d8',
+                            extendedProps: {
+                                heure: vals[3] || 'N/A',
+                                lieu: vals[4] || 'N/A',
+                                sport: vals[5] || 'Général',
+                                description: vals[7] || '',
+                                image: vals[8] || ''
+                            }
+                        };
+                    }).filter(evt => evt !== null);
+
+                    const calendar = new FullCalendar.Calendar(calendarEl, {
+                        initialView: 'dayGridMonth',
+                        headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek' },
+                        locale: 'fr',
+                        buttonText: { today: "Aujourd'hui", month: 'Mois', week: 'Semaine' },
+                        events: evenementsSheet,
+                        eventClick: function(info) {
+                            document.getElementById('modal-title').innerText = info.event.title;
+                            document.getElementById('modal-sport').innerText = info.event.extendedProps.sport;
+                            document.getElementById('modal-time').innerText = info.event.extendedProps.heure;
+                            document.getElementById('modal-location').innerText = info.event.extendedProps.lieu;
+                            document.getElementById('modal-desc').innerText = info.event.extendedProps.description;
+                            document.getElementById('modal-img').src = info.event.extendedProps.image;
+                            modal.style.display = 'flex';
+                        }
+                    });
+                    
+                    document.querySelector('[data-target="planning"]').addEventListener('click', () => {
+                        setTimeout(() => { calendar.render(); }, 10);
+                    });
+                    calendar.render();
+                })
+                .catch(err => console.error("Erreur Planning:", err));
+        });
+
+        // --- ENREGISTREMENT DU PROFIL ---
+        function enregistrerProfil() {
+            const email = document.getElementById('user-email').value;
+            if (!email || !email.includes('@')) {
+                alert("Merci de saisir une adresse email valide !");
+                return;
+            }
+
+            const sportsCoches = [];
+            const checkboxes = document.querySelectorAll('.checkbox-group input:checked');
+            checkboxes.forEach(cb => {
+                sportsCoches.push(cb.nextElementSibling.innerText);
+            });
+            
+            if (sportsCoches.length === 0) {
+                alert("Sélectionne au moins un sport !");
+                return;
+            }
+            
+            const listeSports = sportsCoches.join(', ');
+
+            const btn = document.getElementById('btn-profil');
+            btn.innerText = "Enregistrement en cours...";
+            btn.style.background = "#f39c12"; 
+            btn.disabled = true;
+            
+            const urlAvecDonnees = SCRIPT_URL_PROFIL + "?email=" + encodeURIComponent(email) + "&sports=" + encodeURIComponent(listeSports);
+
+            fetch(urlAvecDonnees)
+                .then(res => res.text())
+                .then(reponse => {
+                    alert("Super ! Tes préférences ont bien été enregistrées. Tu seras notifié(e) des prochaines sorties !");
+                    btn.innerText = "Enregistrer mes préférences";
+                    btn.style.background = "#25d366"; 
+                    btn.disabled = false;
+                })
+                .catch(err => {
+                    alert("Erreur de connexion. Réessaie plus tard.");
+                    btn.innerText = "Enregistrer mes préférences";
+                    btn.style.background = "#25d366"; 
+                    btn.disabled = false;
+                });
+        }
+    </script>
+</body>
+</html>
