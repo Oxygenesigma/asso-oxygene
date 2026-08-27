@@ -77,35 +77,16 @@
 </head>
 <body>
 
-    <!-- BARRE DE NAVIGATION (L'Association est active par défaut) -->
+    <!-- BARRE DE NAVIGATION (L'Association est tout à gauche et active par défaut) -->
     <nav>
+        <button class="nav-btn active" data-target="asso">L'Association</button>
         <button class="nav-btn" data-target="matos">Matériel</button>
         <button class="nav-btn" data-target="planning">Planning</button>
-        <button class="nav-btn active" data-target="asso">L'Association</button>
         <button class="nav-btn" data-target="profil">Mon Profil</button>
     </nav>
 
     <div class="container">
         
-        <!-- ONGLET MATERIEL -->
-        <section id="matos" class="section">
-            <h2 style="margin-bottom: 1.5rem; text-align: center; color: #1e3c72;">Inventaire Disponible</h2>
-            <div class="filters" id="filter-container">
-                <button class="btn-filter active" data-sport="tous">Tous les sports</button>
-                <button class="btn-filter" data-sport="ski">Ski</button>
-                <button class="btn-filter" data-sport="escalade">Escalade</button>
-                <button class="btn-filter" data-sport="rando">Randonnée</button>
-                <button class="btn-filter" data-sport="vtt">VTT</button>
-            </div>
-            <div class="grid" id="materiel-grid"></div>
-        </section>
-
-        <!-- ONGLET PLANNING -->
-        <section id="planning" class="section">
-            <h2 style="text-align: center; color: #1e3c72; margin-bottom: 1rem;">Calendrier des Sorties</h2>
-            <div id="calendar"></div>
-        </section>
-
         <!-- ONGLET L'ASSOCIATION (ACTIF PAR DEFAUT) -->
         <section id="asso" class="section active">
             <!-- En-tête avec Logo -->
@@ -118,7 +99,7 @@
             <!-- Photo de Groupe -->
             <div class="group-photo-container">
                 <h3 style="color: #1e3c72;">L'Équipe / La vie asso</h3>
-                <img src="photo groupe" alt="Photo de groupe de l'association" class="group-photo">
+                <img src="photo-groupe.jpg" alt="Photo de groupe de l'association" class="group-photo">
             </div>
 
             <!-- Trombinoscope du Bureau -->
@@ -148,6 +129,25 @@
                 <div class="trombi-card"><img src="https://via.placeholder.com/100" alt="Paul-André"><h4>Paul-André</h4><span>Respo Trail</span></div>
                 <div class="trombi-card"><img src="https://via.placeholder.com/100" alt="Thélio"><h4>Thélio</h4><span>Respo Trail</span></div>
             </div>
+        </section>
+
+        <!-- ONGLET MATERIEL -->
+        <section id="matos" class="section">
+            <h2 style="margin-bottom: 1.5rem; text-align: center; color: #1e3c72;">Inventaire Disponible</h2>
+            <div class="filters" id="filter-container">
+                <button class="btn-filter active" data-sport="tous">Tous les sports</button>
+                <button class="btn-filter" data-sport="ski">Ski</button>
+                <button class="btn-filter" data-sport="escalade">Escalade</button>
+                <button class="btn-filter" data-sport="rando">Randonnée</button>
+                <button class="btn-filter" data-sport="vtt">VTT</button>
+            </div>
+            <div class="grid" id="materiel-grid"></div>
+        </section>
+
+        <!-- ONGLET PLANNING -->
+        <section id="planning" class="section">
+            <h2 style="text-align: center; color: #1e3c72; margin-bottom: 1rem;">Calendrier des Sorties</h2>
+            <div id="calendar"></div>
         </section>
 
         <!-- ONGLET PROFIL -->
