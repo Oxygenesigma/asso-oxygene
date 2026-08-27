@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portail Association</title>
+    <title>Portail Association - Oxygène</title>
     
     <!-- LIBRAIRIE CALENDRIER -->
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
@@ -14,7 +14,7 @@
         body { background-color: #f4f6f9; color: #333; padding-bottom: 50px; }
         
         /* --- NAVIGATION --- */
-        nav { background: #1e3c72; display: flex; justify-content: center; padding: 1rem; gap: 1rem; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        nav { background: #1e3c72; display: flex; justify-content: center; padding: 1rem; gap: 1rem; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.1); flex-wrap: wrap; }
         nav button { background: rgba(255,255,255,0.1); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: bold; transition: 0.3s; }
         nav button:hover { background: rgba(255,255,255,0.2); }
         nav button.active { background: white; color: #1e3c72; }
@@ -25,7 +25,7 @@
         .section.active { display: block; animation: fadeIn 0.3s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- FILTRES ET GRILLE --- */
+        /* --- FILTRES ET GRILLE MATERIEL --- */
         .filters { display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap; justify-content: center; }
         .btn-filter { background: white; border: 1px solid #ddd; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; transition: 0.2s; font-weight: bold; }
         .btn-filter.active, .btn-filter:hover { background: #2a5298; color: white; border-color: #2a5298; }
@@ -38,7 +38,7 @@
         .prices { background: #f8f9fa; padding: 0.8rem; border-radius: 8px; margin-top: 1rem; }
         .price-row { display: flex; justify-content: space-between; margin-bottom: 0.3rem; font-size: 0.9rem; }
 
-        /* --- PLANNING ET MODALE D'EVENEMENT --- */
+        /* --- PLANNING ET MODALE --- */
         #calendar { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 1rem; }
@@ -49,7 +49,7 @@
         .close-btn { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.5); color: white; border: none; width: 35px; height: 35px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; justify-content: center; align-items: center; }
         .close-btn:hover { background: black; }
 
-        /* --- PROFIL --- */
+        /* --- PROFIL (FORMULAIRE) --- */
         .profil-box { background: white; padding: 2rem; border-radius: 12px; max-width: 600px; margin: 0 auto; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .form-group { margin-bottom: 1.5rem; }
         .form-group label { display: block; font-weight: bold; margin-bottom: 0.5rem; }
@@ -57,6 +57,22 @@
         .checkbox-group { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.8rem; }
         .btn-save { background: #25d366; color: white; border: none; padding: 0.8rem 2rem; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1.1rem; transition: 0.3s; }
         .btn-save:hover { filter: brightness(0.95); }
+
+        /* --- STYLES DE LA PAGE L'ASSOCIATION --- */
+        .asso-header { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; margin-bottom: 2rem; }
+        .asso-logo { width: 120px; height: 120px; object-fit: contain; margin-bottom: 1rem; border-radius: 50%; background: #f8f9fa; padding: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .asso-header h2 { color: #1e3c72; margin-bottom: 0.5rem; }
+        .asso-header p { color: #666; line-height: 1.6; max-width: 700px; margin: 0 auto; }
+        
+        .group-photo-container { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 2rem; text-align: center; }
+        .group-photo { width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px; margin-top: 1rem; }
+        
+        .trombi-title { color: #1e3c72; text-align: center; margin-bottom: 1.5rem; }
+        .trombi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+        .trombi-card { background: white; border-radius: 12px; padding: 1.5rem; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .trombi-card img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; background: #eee; }
+        .trombi-card h4 { color: #1e3c72; margin-bottom: 0.2rem; }
+        .trombi-card span { font-size: 0.85rem; color: #2a5298; font-weight: bold; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -65,6 +81,7 @@
     <nav>
         <button class="nav-btn active" data-target="matos">Matériel</button>
         <button class="nav-btn" data-target="planning">Planning</button>
+        <button class="nav-btn" data-target="asso">L'Association</button>
         <button class="nav-btn" data-target="profil">Mon Profil</button>
     </nav>
 
@@ -89,6 +106,47 @@
             <div id="calendar"></div>
         </section>
 
+        <!-- ONGLET L'ASSOCIATION -->
+        <section id="asso" class="section">
+            <!-- En-tête avec Logo -->
+            <div class="asso-header">
+                <img src="logo veste.png" alt="Logo de l'Association" class="asso-logo">
+                <h2>À propos d'Oxygène</h2>
+                <p>Bienvenue sur le portail officiel de l'association ! Notre mission est de vous faire vivre des aventures inoubliables, de partager notre passion pour le sport en plein air, et de vous prêter tout le matériel nécessaire pour vos sorties.</p>
+            </div>
+
+            <!-- Photo de Groupe -->
+            <div class="group-photo-container">
+                <h3 style="color: #1e3c72;">L'Équipe / La vie asso</h3>
+                <img src="WhatsApp Image 2026-08-27 at 21.11.48.jpg" alt="Photo de groupe de l'association" class="group-photo">
+            </div>
+
+            <!-- Trombinoscope du Bureau -->
+            <h3 class="trombi-title">Le Bureau & Les Respos</h3>
+            <div class="trombi-grid">
+                <div class="trombi-card">
+                    <img src="https://via.placeholder.com/100" alt="Membre 1">
+                    <h4>Prénom Nom</h4>
+                    <span>Président(e)</span>
+                </div>
+                <div class="trombi-card">
+                    <img src="https://via.placeholder.com/100" alt="Membre 2">
+                    <h4>Prénom Nom</h4>
+                    <span>Trésorier(e)</span>
+                </div>
+                <div class="trombi-card">
+                    <img src="https://via.placeholder.com/100" alt="Membre 3">
+                    <h4>Nicolas Schmitt</h4>
+                    <span>Respo Com</span>
+                </div>
+                <div class="trombi-card">
+                    <img src="https://via.placeholder.com/100" alt="Membre 4">
+                    <h4>Prénom Nom</h4>
+                    <span>Respo Matos</span>
+                </div>
+            </div>
+        </section>
+
         <!-- ONGLET PROFIL -->
         <section id="profil" class="section">
             <div class="profil-box">
@@ -110,7 +168,6 @@
                     <div class="checkbox-group"><input type="checkbox" id="pref-velo-route"> <label for="pref-velo-route">Vélo de route</label></div>
                 </div>
 
-                <!-- Bouton relié à la fonction d'enregistrement -->
                 <button class="btn-save" onclick="enregistrerProfil()" id="btn-profil">Enregistrer mes préférences</button>
             </div>
         </section>
@@ -134,22 +191,15 @@
     </div>
 
     <script>
-        // ===================================================
-        // CONSTANTES ET URLS (MIS A JOUR POUR L'ASSO)
-        // ===================================================
         const URL_MATERIEL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQf_GoJW-8xWtXyvafzNJUFnykAl-TN13yuXZT7WfGbc7UlKdS-oTOFO9_yZXCYhBAOofhuakR2HhIN/pub?gid=0&single=true&output=csv'; 
         const URL_PLANNING = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQf_GoJW-8xWtXyvafzNJUFnykAl-TN13yuXZT7WfGbc7UlKdS-oTOFO9_yZXCYhBAOofhuakR2HhIN/pub?gid=1075343907&single=true&output=csv'; 
-        
-        // URL de l'API Google Apps Script de l'association
         const SCRIPT_URL_PROFIL = 'https://script.google.com/macros/s/AKfycbxIwW83UMgLS46ibLYQ_hYEaw4yH66XcQWiwMJWTtvDbxrFoehpd6eLjlcqdBLzPA/exec';
 
-        // --- FONCTION INTELLIGENTE DE LECTURE CSV ---
         function lireLigneCSV(ligne) {
             const regex = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
             return ligne.split(regex).map(valeur => valeur.replace(/^"|"$/g, '').trim());
         }
 
-        // --- GESTION DES ONGLETS ---
         const navBtns = document.querySelectorAll('.nav-btn');
         const sections = document.querySelectorAll('.section');
         navBtns.forEach(btn => {
@@ -161,12 +211,10 @@
             });
         });
 
-        // --- GESTION DE LA MODALE ---
         const modal = document.getElementById('event-modal');
         document.getElementById('close-modal').addEventListener('click', () => modal.style.display = 'none');
         window.addEventListener('click', (e) => { if (e.target == modal) modal.style.display = 'none'; });
 
-        // --- CHARGEMENT DU MATERIEL ---
         const grid = document.getElementById('materiel-grid');
         let inventaireGlobal = [];
 
@@ -215,7 +263,6 @@
             })
             .catch(err => console.error("Erreur Matériel:", err));
 
-        // --- CHARGEMENT DU PLANNING ---
         document.addEventListener('DOMContentLoaded', function() {
             const calendarEl = document.getElementById('calendar');
             
@@ -227,7 +274,6 @@
                     
                     const evenementsSheet = lignes.map(ligne => {
                         const vals = lireLigneCSV(ligne); 
-                        
                         if (!vals[0] || !vals[1]) return null;
 
                         return {
@@ -270,7 +316,6 @@
                 .catch(err => console.error("Erreur Planning:", err));
         });
 
-        // --- ENREGISTREMENT DU PROFIL ---
         function enregistrerProfil() {
             const email = document.getElementById('user-email').value;
             if (!email || !email.includes('@')) {
@@ -279,8 +324,7 @@
             }
 
             const sportsCoches = [];
-            const checkboxes = document.querySelectorAll('.checkbox-group input:checked');
-            checkboxes.forEach(cb => {
+            document.querySelectorAll('.checkbox-group input:checked').forEach(cb => {
                 sportsCoches.push(cb.nextElementSibling.innerText);
             });
             
@@ -289,25 +333,23 @@
                 return;
             }
             
-            const listeSports = sportsCoches.join(', ');
-
             const btn = document.getElementById('btn-profil');
             btn.innerText = "Enregistrement en cours...";
             btn.style.background = "#f39c12"; 
             btn.disabled = true;
             
-            const urlAvecDonnees = SCRIPT_URL_PROFIL + "?email=" + encodeURIComponent(email) + "&sports=" + encodeURIComponent(listeSports);
+            const urlAvecDonnees = SCRIPT_URL_PROFIL + "?email=" + encodeURIComponent(email) + "&sports=" + encodeURIComponent(sportsCoches.join(', '));
 
             fetch(urlAvecDonnees)
                 .then(res => res.text())
                 .then(reponse => {
-                    alert("Super ! Tes préférences ont bien été enregistrées. Tu seras notifié(e) des prochaines sorties !");
+                    alert("Super ! Tes préférences ont bien été enregistrées.");
                     btn.innerText = "Enregistrer mes préférences";
                     btn.style.background = "#25d366"; 
                     btn.disabled = false;
                 })
                 .catch(err => {
-                    alert("Erreur de connexion. Réessaie plus tard.");
+                    alert("Erreur de connexion. Réessaie.");
                     btn.innerText = "Enregistrer mes préférences";
                     btn.style.background = "#25d366"; 
                     btn.disabled = false;
