@@ -67,7 +67,7 @@
         .group-photo-container { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 2rem; text-align: center; }
         .group-photo { width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px; margin-top: 1rem; }
         
-        .trombi-title { color: #1e3c72; text-align: center; margin-bottom: 1.5rem; }
+        .trombi-title { color: #1e3c72; text-align: center; margin: 2rem 0 1.5rem 0; }
         .trombi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
         .trombi-card { background: white; border-radius: 12px; padding: 1.5rem; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .trombi-card img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; background: #eee; }
@@ -77,18 +77,18 @@
 </head>
 <body>
 
-    <!-- BARRE DE NAVIGATION -->
+    <!-- BARRE DE NAVIGATION (L'Association est active par défaut) -->
     <nav>
-        <button class="nav-btn active" data-target="matos">Matériel</button>
+        <button class="nav-btn" data-target="matos">Matériel</button>
         <button class="nav-btn" data-target="planning">Planning</button>
-        <button class="nav-btn" data-target="asso">L'Association</button>
+        <button class="nav-btn active" data-target="asso">L'Association</button>
         <button class="nav-btn" data-target="profil">Mon Profil</button>
     </nav>
 
     <div class="container">
         
         <!-- ONGLET MATERIEL -->
-        <section id="matos" class="section active">
+        <section id="matos" class="section">
             <h2 style="margin-bottom: 1.5rem; text-align: center; color: #1e3c72;">Inventaire Disponible</h2>
             <div class="filters" id="filter-container">
                 <button class="btn-filter active" data-sport="tous">Tous les sports</button>
@@ -106,8 +106,8 @@
             <div id="calendar"></div>
         </section>
 
-        <!-- ONGLET L'ASSOCIATION -->
-        <section id="asso" class="section">
+        <!-- ONGLET L'ASSOCIATION (ACTIF PAR DEFAUT) -->
+        <section id="asso" class="section active">
             <!-- En-tête avec Logo -->
             <div class="asso-header">
                 <img src="logo veste.png" alt="Logo de l'Association" class="asso-logo">
@@ -118,32 +118,35 @@
             <!-- Photo de Groupe -->
             <div class="group-photo-container">
                 <h3 style="color: #1e3c72;">L'Équipe / La vie asso</h3>
-                <img src="WhatsApp Image 2026-08-27 at 21.11.48.jpg" alt="Photo de groupe de l'association" class="group-photo">
+                <img src="photo groupe" alt="Photo de groupe de l'association" class="group-photo">
             </div>
 
             <!-- Trombinoscope du Bureau -->
             <h3 class="trombi-title">Le Bureau & Les Respos</h3>
             <div class="trombi-grid">
-                <div class="trombi-card">
-                    <img src="https://via.placeholder.com/100" alt="Membre 1">
-                    <h4>Prénom Nom</h4>
-                    <span>Président(e)</span>
-                </div>
-                <div class="trombi-card">
-                    <img src="https://via.placeholder.com/100" alt="Membre 2">
-                    <h4>Prénom Nom</h4>
-                    <span>Trésorier(e)</span>
-                </div>
-                <div class="trombi-card">
-                    <img src="https://via.placeholder.com/100" alt="Membre 3">
-                    <h4>Nicolas Schmitt</h4>
-                    <span>Respo Com</span>
-                </div>
-                <div class="trombi-card">
-                    <img src="https://via.placeholder.com/100" alt="Membre 4">
-                    <h4>Prénom Nom</h4>
-                    <span>Respo Matos</span>
-                </div>
+                <!-- Bureau Principal -->
+                <div class="trombi-card"><img src="https://via.placeholder.com/100" alt="Emma"><h4>Emma</h4><span>Présidente</span></div>
+                <div class="trombi-card"><img src="https://via.placeholder.com/100" alt="Nicolas"><h4>Nicolas</h4><span>Vice-président</span></div>
+                <div class="trombi-card"><img src="https://via.placeholder.com/100" alt="Marie"><h4>Marie</h4><span>Trésorière</span></div>
+                <div class="trombi-card"><img src="https://via.placeholder.com/100" alt="Carla"><h4>Carla</h4><span>Secrétaire</span></div>
+                
+                <!-- Respos Comm -->
+                <div class="trombi-card"><img src="https://via.placeholder.com/100" alt="Chloé"><h4>Chloé</h4><span>Respo Comm</span></div>
+                <div class="trombi-card"><img src="https://via.placeholder.com/100" alt="Briac"><h4>Briac</h4><span>Respo Comm</span></div>
+                
+                <!-- Respos Event -->
+                <div class="trombi-card"><img src="https://via.placeholder.com/100" alt="Chloé"><h4>Chloé</h4><span>Respo Event</span></div>
+                <div class="trombi-card"><img src="https://via.placeholder.com/100" alt="Emilie"><h4>Emilie</h4><span>Respo Event</span></div>
+                
+                <!-- Respos Sports -->
+                <div class="trombi-card"><img src="https://via.placeholder.com/100" alt="Quentin"><h4>Quentin</h4><span>Respo Vélo</span></div>
+                <div class="trombi-card"><img src="https://via.placeholder.com/100" alt="Siméon"><h4>Siméon</h4><span>Respo VTT</span></div>
+                <div class="trombi-card"><img src="https://via.placeholder.com/100" alt="Juliette"><h4>Juliette</h4><span>Respo Glisse</span></div>
+                <div class="trombi-card"><img src="https://via.placeholder.com/100" alt="Armand"><h4>Armand</h4><span>Respo Escalade</span></div>
+                <div class="trombi-card"><img src="https://via.placeholder.com/100" alt="Cloé"><h4>Cloé</h4><span>Respo Rando</span></div>
+                <div class="trombi-card"><img src="https://via.placeholder.com/100" alt="Adrien"><h4>Adrien</h4><span>Respo Rando</span></div>
+                <div class="trombi-card"><img src="https://via.placeholder.com/100" alt="Paul-André"><h4>Paul-André</h4><span>Respo Trail</span></div>
+                <div class="trombi-card"><img src="https://via.placeholder.com/100" alt="Thélio"><h4>Thélio</h4><span>Respo Trail</span></div>
             </div>
         </section>
 
